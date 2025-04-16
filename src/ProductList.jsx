@@ -1,9 +1,11 @@
 import React, { useState,useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import './ProductList.css'
 import CartItem from './CartItem';
 import addItem from './CartSlice';
 
 function ProductList() {
+    const dispatch = useDispatch();
     const [showCart, setShowCart] = useState(false); 
     const [showPlants, setShowPlants] = useState(false); // State to control the visibility of the About Us page
     const [addedToCart, setAddedToCart] = useState({}); // Track which products are added to cart
@@ -215,49 +217,51 @@ function ProductList() {
             ]
         }
     ];
-   const styleObj={
-    backgroundColor: '#4CAF50',
-    color: '#fff!important',
-    padding: '15px',
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignIems: 'center',
-    fontSize: '20px',
-   }
-   const styleObjUl={
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    width: '1100px',
-   }
-   const styleA={
-    color: 'white',
-    fontSize: '30px',
-    textDecoration: 'none',
-   }
-   const handleCartClick = (e) => {
-    e.preventDefault();
-    setShowCart(true); // Set showCart to true when cart icon is clicked
-};
-const handlePlantsClick = (e) => {
-    e.preventDefault();
-    setShowPlants(true); // Set showAboutUs to true when "About Us" link is clicked
-    setShowCart(false); // Hide the cart when navigating to About Us
-};
+    const styleObj={
+        backgroundColor: '#4CAF50',
+        color: '#fff!important',
+        padding: '15px',
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignIems: 'center',
+        fontSize: '20px',
+    }
+    const styleObjUl={
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        width: '1100px',
+    }
+    const styleA={
+        color: 'white',
+        fontSize: '30px',
+        textDecoration: 'none',
+    }
+    const handleCartClick = (e) => {
+        e.preventDefault();
+        setShowCart(true); // Set showCart to true when cart icon is clicked
+    };
+    const handlePlantsClick = (e) => {
+        e.preventDefault();
+        setShowPlants(true); // Set showAboutUs to true when "About Us" link is clicked
+        setShowCart(false); // Hide the cart when navigating to About Us
+    };
 
-   const handleContinueShopping = (e) => {
-    e.preventDefault();
-    setShowCart(false);
-  };
+    const handleContinueShopping = (e) => {
+        e.preventDefault();
+        setShowCart(false);
+    };
 
-  const handleAddToCart = (product) => {
-    dispatch(addItem(product));
-    setAddedToCart((prevState) => ({
-        ...prevState,
-        [product.name]: true, // Set the product name as key and value as true to show it's added to the cart
-    }));
-    
-  }
+    const handleAddToCart = (product) => {
+        console.log('Dispatching addItem with: ', { name: product.name, image: product.image, cost: product.cost });
+        dispatch(addItem({ name: product.name, image: product.image, cost: product.cost }));
+        console.log('addItem dispatch done');
+        setAddedToCart((prevState) => ({
+            ...prevState,
+            [product.name]: true, // Set the product name as key and value as true to show it's added to the cart
+        }));
+        
+    }
     return (
         <div>
              <div className="navbar" style={styleObj}>
